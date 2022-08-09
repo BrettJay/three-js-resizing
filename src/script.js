@@ -4,12 +4,12 @@ import SplineLoader from '@splinetool/loader';
 import * as dat from 'lil-gui';
 
 const element = {
-  width: 0.5,
+  horizontal_ratio: 0.5,
   vertical_integer: 2,
 }
 
 // camera
-const camera = new THREE.OrthographicCamera(window.innerWidth / - ( element.vertical_integer / element.width ), window.innerWidth / ( element.vertical_integer / element.width ), window.innerHeight / element.vertical_integer, window.innerHeight / - element.vertical_integer,  -100000, 100000);
+const camera = new THREE.OrthographicCamera(window.innerWidth / - ( element.vertical_integer / element.horizontal_ratio ), window.innerWidth / ( element.vertical_integer / element.horizontal_ratio ), window.innerHeight / element.vertical_integer, window.innerHeight / - element.vertical_integer,  -100000, 100000);
 camera.position.set(52.39, 1000.55, 227.45);
 camera.quaternion.setFromEuler(new THREE.Euler(-1.47, 0.01, 0.06));
 
@@ -27,7 +27,7 @@ loader.load(
 
 // renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth * element.width, window.innerHeight);
+renderer.setSize(window.innerWidth * element.horizontal_ratio, window.innerHeight);
 renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
 
@@ -46,12 +46,12 @@ controls.dampingFactor = 0.125;
 window.addEventListener('resize', onWindowResize);
 
 function onWindowResize() {
-  camera.left = window.innerWidth / - ( element.vertical_integer / element.width );
-  camera.right = window.innerWidth / ( element.vertical_integer / element.width );
+  camera.left = window.innerWidth / - ( element.vertical_integer / element.horizontal_ratio );
+  camera.right = window.innerWidth / ( element.vertical_integer / element.horizontal_ratio );
   camera.top = window.innerHeight / element.vertical_integer;
   camera.bottom = window.innerHeight / - element.vertical_integer;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth * element.width, window.innerHeight);
+  renderer.setSize(window.innerWidth * element.horizontal_ratio, window.innerHeight);
 }
 
 function animate(time) {
@@ -62,5 +62,5 @@ function animate(time) {
 // Debug UI
 const gui = new dat.GUI();
 
-gui.add( element, 'width', 0.1, 1).onChange( onWindowResize ).name( 'Width (ratio)' )
+gui.add( element, 'horizontal_ratio', 0.1, 1).onChange( onWindowResize ).name( 'Horizontal ratio' )
 gui.add( element, 'vertical_integer', 0, 5).onChange( onWindowResize ).name( 'Vertical integer' )
