@@ -5,10 +5,11 @@ import * as dat from 'lil-gui';
 
 const element = {
   width: 0.5,
+  vertical_integer: 2,
 }
 
 // camera
-const camera = new THREE.OrthographicCamera(window.innerWidth / - ( 2 / element.width ), window.innerWidth / ( 2 / element.width ), window.innerHeight / 2, window.innerHeight / - 2,  -100000, 100000);
+const camera = new THREE.OrthographicCamera(window.innerWidth / - ( element.vertical_integer / element.width ), window.innerWidth / ( element.vertical_integer / element.width ), window.innerHeight / element.vertical_integer, window.innerHeight / - element.vertical_integer,  -100000, 100000);
 camera.position.set(52.39, 1000.55, 227.45);
 camera.quaternion.setFromEuler(new THREE.Euler(-1.47, 0.01, 0.06));
 
@@ -45,10 +46,10 @@ controls.dampingFactor = 0.125;
 window.addEventListener('resize', onWindowResize);
 
 function onWindowResize() {
-  camera.left = window.innerWidth / - ( 2 / element.width );
-  camera.right = window.innerWidth / ( 2 / element.width );
-  camera.top = window.innerHeight / 2;
-  camera.bottom = window.innerHeight / - 2;
+  camera.left = window.innerWidth / - ( element.vertical_integer / element.width );
+  camera.right = window.innerWidth / ( element.vertical_integer / element.width );
+  camera.top = window.innerHeight / element.vertical_integer;
+  camera.bottom = window.innerHeight / - element.vertical_integer;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth * element.width, window.innerHeight);
 }
@@ -62,3 +63,4 @@ function animate(time) {
 const gui = new dat.GUI();
 
 gui.add( element, 'width', 0.1, 1).onChange( onWindowResize ).name( 'Width (ratio)' )
+gui.add( element, 'vertical_integer', 0, 5).onChange( onWindowResize ).name( 'Vertical integer' )
